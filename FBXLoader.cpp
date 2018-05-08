@@ -156,6 +156,9 @@ void FBXLoader::CopyVertexData(FbxMesh* pMesh)
 	// 메쉬의 폴리곤 개수를 구한다
 	int polygonCount = pMesh->GetPolygonCount();
 	std::unordered_set<int> indexSet;
+	FbxStringList uvSetNameList;
+	pMesh->GetUVSetNames(uvSetNameList);
+	bool unmapped = false;
 
 	for (int pol = 0; pol < polygonCount; pol++)
 	{
@@ -164,39 +167,32 @@ void FBXLoader::CopyVertexData(FbxMesh* pMesh)
 
 		for (int vtx = 0; vtx < vertexCount; vtx++)
 		{
+			// 버텍스의 인덱스를 구한다
 			int index = pMesh->GetPolygonVertex(pol, vtx);
 
+			// 인덱스셋에 구한 인덱스가 없으면(버텍스가 없으면)
 			if (indexSet.find(index) == indexSet.end())
 			{
+				// 인덱스셋에 인덱스를 저장한다
 				indexSet.insert(index);
 
+				// 버텍스 좌표를 구한다
 				FBXLoaderVertex vertex;
 				vertex.Pos = pMesh->GetControlPointAt(index);
 
+				// 노말 값을 구한다
 				FbxVector4 normal;
 				pMesh->GetPolygonVertexNormal(pol, vtx, normal);
 				vertex.Normal = normal;
+
+				// 텍스처 좌표를 구한다
+				FbxString uvSetName = uvSetNameList.GetStringAt(0);
+				pMesh->GetPolygonVertexUV(pol, vtx, uvSetName, vertex.TexC, unmapped);
 
 				mVertexs.push_back(vertex);
 			}
 
 			mIndices.push_back(index);
-		}
-	}
-
-	FbxStringList uvSetNameList;
-	pMesh->GetUVSetNames(uvSetNameList);
-	bool unmapped = false;
-
-	for (int pol = 0; pol < polygonCount; pol++)
-	{
-		int vertexCount = pMesh->GetPolygonSize(pol);
-
-		for (int vtx = 0; vtx < vertexCount; vtx++)
-		{
-			int index = pMesh->GetPolygonVertex(pol, vtx);
-			FbxString uvSetName = uvSetNameList.GetStringAt(0);
-			pMesh->GetPolygonVertexUV(pol, vtx, uvSetName, mVertexs[index].TexC, unmapped);
 		}
 	}
 }
