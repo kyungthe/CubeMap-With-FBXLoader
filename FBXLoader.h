@@ -19,21 +19,6 @@ struct FBXLoaderVertex
 
 class FBXLoader
 {
-public:
-	// FBX SDK
-	FbxManager* mSdkManager;
-	FbxScene*	mScene;
-	FbxImporter* mImporter;
-
-	FBXLoader();
-	~FBXLoader();
-
-	std::vector<FBXLoaderVertex> GetVertexs() { return mVertexs; }
-	std::vector<std::uint16_t> GetIndices() { return mIndices; }
-	std::string GetTexturePath() { return mTexturePath; }
-
-	RESULT LoadFBX(const char* filename);
-
 private:
 	std::vector<FBXLoaderVertex> mVertexs;
 	std::vector<std::uint16_t> mIndices;
@@ -45,6 +30,21 @@ private:
 	void SetupNode(FbxNode* pNode);
 	void CopyVertexData(FbxMesh* pMesh);
 	void CopyTextureData(FbxSurfaceMaterial* mat);
+
+public:
+	// FBX SDK
+	FbxManager* mSdkManager;
+	FbxScene*	mScene;
+	FbxImporter* mImporter;
+
+	FBXLoader();
+	~FBXLoader();
+
+	decltype(mVertexs) GetVertexs() { return mVertexs; }
+	decltype(mIndices) GetIndices() { return mIndices; }
+	std::string GetTexturePath() { return mTexturePath; }
+
+	RESULT LoadFBX(const char* filename);
 };
 
 
