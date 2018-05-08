@@ -185,7 +185,7 @@ void FBXLoader::CopyVertexData(FbxMesh* pMesh)
 				pMesh->GetPolygonVertexNormal(pol, vtx, normal);
 				vertex.Normal = normal;
 
-				// 텍스처 좌표를 구한다
+				// UV 좌표를 구한다
 				FbxString uvSetName = uvSetNameList.GetStringAt(0);
 				pMesh->GetPolygonVertexUV(pol, vtx, uvSetName, vertex.TexC, unmapped);
 
