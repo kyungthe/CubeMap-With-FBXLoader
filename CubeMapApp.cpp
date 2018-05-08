@@ -737,12 +737,23 @@ void CubeMapApp::BuildShapeGeometry()
 	std::vector<FBXLoaderVertex> fbxVertexs = mFBXLoader.GetVertexs();
 	for (size_t i = 0; i < fbxVertexs.size(); ++i, ++k)
 	{
-		vertices[k].Pos = DirectX::XMFLOAT3((float)fbxVertexs[i].Pos.mData[0], (float)fbxVertexs[i].Pos.mData[1], (float)fbxVertexs[i].Pos.mData[2]);
-		vertices[k].Normal = DirectX::XMFLOAT3((float)fbxVertexs[i].Normal.mData[0], (float)fbxVertexs[i].Normal.mData[1], (float)fbxVertexs[i].Normal.mData[2]);
+		vertices[k].Pos = DirectX::XMFLOAT3(
+			(float)fbxVertexs[i].Pos.mData[0],
+			(float)fbxVertexs[i].Pos.mData[1],
+			(float)fbxVertexs[i].Pos.mData[2]
+		);
+		vertices[k].Normal = DirectX::XMFLOAT3(
+			(float)fbxVertexs[i].Normal.mData[0],
+			(float)fbxVertexs[i].Normal.mData[1], 
+			(float)fbxVertexs[i].Normal.mData[2]
+		);
 
 		if (!mFBXLoader.GetTexturePath().empty())
 		{
-			vertices[k].TexC = DirectX::XMFLOAT2((float)abs(1.0f - fbxVertexs[i].TexC.mData[0]), (float)abs(1.0f - fbxVertexs[i].TexC.mData[1]));
+			vertices[k].TexC = DirectX::XMFLOAT2(
+				(float)abs(1.0f - fbxVertexs[i].TexC.mData[0]),
+				(float)abs(1.0f - fbxVertexs[i].TexC.mData[1])
+			);
 		}
 		else
 		{
