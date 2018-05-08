@@ -220,8 +220,6 @@ void FBXLoader::CopyTextureData(FbxSurfaceMaterial * mat)
 			
 			if (fileTexture)
 			{
-				FbxString uvSetName = fileTexture->UVSet.Get();
-				std::string uvSetString = uvSetName.Buffer();
 				mTexturePath = fileTexture->GetFileName();
 			}
 		}
